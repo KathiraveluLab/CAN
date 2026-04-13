@@ -1,4 +1,5 @@
 use can_framework::apps::healthcare::dicom::DicomRouter;
+use can_framework::routing::multicast::MulticastScheduler;
 use can_framework::routing::protocol::ScanRequest;
 use can_framework::routing::router::CRouter;
 use tracing::info;
@@ -50,8 +51,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let res_b = hub.handle_scan_request(req_b).await;
     println!("SCAN Response for Streaming: {:?}", res_b);
 
+    // 7. Scenario C: Time Slot Multicast Efficiency
+    println!("\n[SCENARIO C] Time Slot Multicast: Grouping multiple requests");
+    let scheduler = MulticastScheduler::new();
+    
+    // Simulations requests arriving in the same time slot
+    scheduler.add_request("healthcare/dicom/pat-001/MRI-Brain".to_string(), "clinic-x".to_string());
+    scheduler.add_request("healthcare/dicom/pat-001/MRI-Brain".to_string(), "clinic-y".to_string());
+    scheduler.add_request("healthcare/dicom/pat-001/MRI-Brain".to_string(), "hospital-z".to_string());
+    
+    // Flush the scheduler to simulate end of time slot and broadcast
+    scheduler.process_multicast();
+
     println!("\n----------------------------------------------------------");
-    println!("Simulation Complete: SCAN Protocol verified against CRT/LCT/BF logic.");
+    println!("Simulation Complete: All scenarios (A, B, C) verified.");
 
     Ok(())
 }

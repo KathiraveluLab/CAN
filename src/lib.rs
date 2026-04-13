@@ -7,6 +7,7 @@ pub mod core {
 pub mod routing {
     pub mod protocol;
     pub mod router;
+    pub mod multicast;
 }
 
 pub mod apps {
