@@ -2,9 +2,18 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct RadiologyMetadata {
+    pub study_uid: String,
+    pub series_description: String,
+    pub slice_thickness: f32,
+    pub instance_number: u32,
+    pub patient_id: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum ContentType {
     Generic,
-    HealthcareRadiology,
+    HealthcareRadiology(RadiologyMetadata),
     HealthcareRecords,
     VideoStreaming,
     WebText,

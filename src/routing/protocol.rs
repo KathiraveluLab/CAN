@@ -7,6 +7,7 @@ pub struct ScanRequest {
     pub content_name: String,
     pub source_node: String,
     pub hop_count: u32,
+    pub max_hops: u32,
     pub is_priority: bool,
 }
 
@@ -16,8 +17,14 @@ impl ScanRequest {
             content_name,
             source_node,
             hop_count: 0,
+            max_hops: 5, // Default depth from paper
             is_priority,
         }
+    }
+
+    pub fn with_depth(mut self, depth: u32) -> Self {
+        self.max_hops = depth;
+        self
     }
 
     pub fn increment_hop(&mut self) {
@@ -26,7 +33,7 @@ impl ScanRequest {
 }
 
 /// ScanResponse represents the result of a SCAN discovery.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum ScanResponse {
     Found {
         node_id: String,
