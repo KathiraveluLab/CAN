@@ -27,3 +27,7 @@ _bmad
 .vscode
 _paper
 
+
+# Simulation/Benchmarking database files
+*.redb
+bench-node

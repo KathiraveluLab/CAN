@@ -15,3 +15,5 @@ pub mod apps {
         pub mod dicom;
     }
 }
+
+pub mod bench;

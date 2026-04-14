@@ -126,8 +126,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let res_e = edge.handle_scan_request(req_e).await;
     println!("Deep Search Response (expecting Found from core-node): {:?}", res_e);
 
+    // 10. Scenario F: Performance Benchmarking
+    println!("\n[SCENARIO F] Systematic Performance Evaluation");
+    can_framework::bench::run_benchmarks().await;
+
     println!("\n----------------------------------------------------------");
-    println!("Simulation Complete: All scenarios (A, B, C, D, E) verified.");
+    println!("Simulation Complete: All scenarios (A, B, C, D, E, F) verified.");
 
     // Final cleanup of simulation files
     let _ = std::fs::remove_file("central-hub_cache.redb");
@@ -136,6 +140,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let _ = std::fs::remove_file("core-node_cache.redb");
     let _ = std::fs::remove_file("hub-node_cache.redb");
     let _ = std::fs::remove_file("edge-node_cache.redb");
+    let _ = std::fs::remove_file("bench-node_cache.redb");
 
     Ok(())
 }
